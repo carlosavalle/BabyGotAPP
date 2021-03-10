@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class CalendarPresenterActivity extends AppCompatActivity {
 
     // Create the variables to represent the user input
-    EditText title;
-    EditText location;
+    Spinner title;
+    Spinner location;
     EditText description;
 
     // Create a variable to represent the button
@@ -34,9 +36,40 @@ public class CalendarPresenterActivity extends AppCompatActivity {
         // Set the view to be activity_calendar_view
         setContentView(R.layout.activity_calendar_view);
 
-        // Assign the value of the text fields to variables
-        title = findViewById(R.id.editTitle);
-        location = findViewById(R.id.editLocation);
+
+        // Create a spinner object for the title
+        Spinner titleSpinner = (Spinner) findViewById(R.id.titleSpinner);
+
+        // Create an adapter, a container that will hold values
+        // and integrate them with a title spinner
+        ArrayAdapter<String> titleAdapter = new ArrayAdapter<String>(CalendarPresenterActivity.this,
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.titles));
+
+        // Tell the adapter that there will be a list
+        titleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Set the spinner to the adapter
+        titleSpinner.setAdapter(titleAdapter);
+
+
+        // Create a spinner object for the location
+        Spinner locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
+
+        // Create an adapter, a container that will hold values
+        // and integrate them with a title location spinner
+        ArrayAdapter<String> locationAdapter = new ArrayAdapter<String>(CalendarPresenterActivity.this,
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.locations));
+
+        // Tell the adapter that there will be a list
+        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Set the spinner to the adapter
+        locationSpinner.setAdapter(locationAdapter);
+
+
+        // Assign the value of the fields to variables
+        title = findViewById(R.id.titleSpinner);
+        location = findViewById(R.id.locationSpinner);
         description = findViewById(R.id.editDescription);
 
         // Assign the button to a variable
@@ -53,7 +86,7 @@ public class CalendarPresenterActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // if none of the text fields are empty
-                if (!title.getText().toString().isEmpty() && !location.getText().toString().isEmpty()
+                if (!title.getSelectedItem().toString().isEmpty() && !location.getSelectedItem().toString().isEmpty()
                         && !description.getText().toString().isEmpty()) {
 
                     // Create a new Intent
@@ -63,10 +96,12 @@ public class CalendarPresenterActivity extends AppCompatActivity {
                     intent.setData(CalendarContract.Events.CONTENT_URI);
 
                     // Populate the title of the event
-                    intent.putExtra(CalendarContract.Events.TITLE, title.getText().toString());
+                    // getSelectedItem is used here instead of .getText because it comes
+                    // from a spinner
+                    intent.putExtra(CalendarContract.Events.TITLE, title.getSelectedItem().toString());
 
                     // Populate the location of the event
-                    intent.putExtra(CalendarContract.Events.EVENT_LOCATION, location.getText().toString());
+                    intent.putExtra(CalendarContract.Events.EVENT_LOCATION, location.getSelectedItem().toString());
 
                     // Populate the description of the event
                     intent.putExtra(CalendarContract.Events.DESCRIPTION, description.getText().toString());
@@ -75,7 +110,7 @@ public class CalendarPresenterActivity extends AppCompatActivity {
                     intent.putExtra(CalendarContract.Events.ALL_DAY, true); // true means there is no start or end time
 
                     // Add any guests to the event
-                    intent.putExtra(Intent.EXTRA_EMAIL, "test@yahoo.com, test2@yahoo.com, test3@yahoo.com");
+                    //intent.putExtra(Intent.EXTRA_EMAIL, "test@yahoo.com, test2@yahoo.com, test3@yahoo.com");
 
                     // Start the intent
                     startActivity(intent);

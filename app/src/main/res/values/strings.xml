@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">BabyGotAPP</string>
+
+    <!-- Create an array to hold the values of the titleSpinner -->
+    <string-array name="titles">
+        <item>Select Title</item>
+        <item>Doctors Appointment</item>
+        <item>Pediatrician Appointment</item>
+        <item>Bath Time</item>
+    </string-array>
+
+    <!-- Create an array to hold the values of the locationSpinner -->
+    <string-array name="locations">
+        <item>Select Location</item>
+        <item>Doctors Office</item>
+        <item>Pediatricians Office</item>
+        <item>Home</item>
+    </string-array>
+
 </resources>
