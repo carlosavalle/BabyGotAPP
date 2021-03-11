@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "900120205183",
+    "project_id": "babygotapp",
+    "storage_bucket": "babygotapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900120205183:android:9e08cb53bb291ebcac6c4a",
+        "android_client_info": {
+          "package_name": "com.team6"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "900120205183-n4dme8gd3r4ib7he0sr5e1jorq2ev8fo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDItx7yG0SLqtq-Y57rb5VPnGYaLIfd5UA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "900120205183-n4dme8gd3r4ib7he0sr5e1jorq2ev8fo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
