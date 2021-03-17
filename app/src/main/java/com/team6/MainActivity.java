@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     /**
      * It will profile activity for testing purpose.
      */
@@ -48,4 +49,15 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
+
+
+    /**
+     * Called when the user clicks on the White Noise button. For testing purposes.
+     * User will be brought to the WhiteNoisePresenterActivity
+     */
+    public void whiteNoiseEvent(View view) {
+        Intent whiteNoiseIntent = new Intent (this, WhiteNoisePresenterActivity.class);
+        startActivity(whiteNoiseIntent);
     }
+
+}

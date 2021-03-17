@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BabyGotAPP">
         <activity android:name=".ProfileActivity"></activity>
-        <activity android:name=".CalendarPresenterActivity" />
+        <activity android:name=".CalendarPresenterActivity"></activity>
+        <activity android:name=".WhiteNoisePresenterActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

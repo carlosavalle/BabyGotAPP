@@ -51,7 +51,6 @@ public class CalendarPresenterActivity extends AppCompatActivity {
         // Set the spinner to the adapter
         titleSpinner.setAdapter(titleAdapter);
 
-
         // Create a spinner object for the location
         Spinner locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
 
@@ -107,7 +106,7 @@ public class CalendarPresenterActivity extends AppCompatActivity {
                     intent.putExtra(CalendarContract.Events.DESCRIPTION, description.getText().toString());
 
                     // Set the time range of the event to all day
-                    intent.putExtra(CalendarContract.Events.ALL_DAY, true); // true means there is no start or end time
+                    //intent.putExtra(CalendarContract.Events.ALL_DAY, true); // true means there is no start or end time
 
                     // Add any guests to the event
                     //intent.putExtra(Intent.EXTRA_EMAIL, "test@yahoo.com, test2@yahoo.com, test3@yahoo.com");
