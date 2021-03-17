@@ -60,4 +60,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(whiteNoiseIntent);
     }
 
+    public void updateStats(View view) {
+        Intent intent = new Intent(this, UpdateStatsActivity.class);
+        startActivity(intent);
+    }
+
+
 }
