@@ -30,8 +30,13 @@ public class MainActivity extends AppCompatActivity {
      * This method is just temporary for testing purposes
      * Navigates the user to the CalendarPresenter where they
      * will be able to schedule an event
+     *
+     * Edit: I implemented the app menu bar, and reassigned this
+     * method to the calendar icon.
      */
-    public void scheduleEvent(View view) {
+
+
+    public void goToEvents(View view) {
         // Add an intent that takes the CalendarPresenterActivity class.
         // The CalendarPresenterActivity has been added to the manifest.
         Intent intent = new Intent(this, CalendarPresenterActivity.class);
@@ -44,8 +49,11 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * It will profile activity for testing purpose.
+     *
+     * Edit: I implemented the app menu bar, and reassigned this
+     * method to the stroller icon. -Ramos
      */
-    public void profilesEvent(View view) {
+    public void goToProfilesEvent(View view) {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
@@ -54,11 +62,19 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Called when the user clicks on the White Noise button. For testing purposes.
      * User will be brought to the WhiteNoisePresenterActivity
+     *
+     * Edit: I implemented the app menu bar, and reassigned this
+     * method to the radio icon. -Ramos
      */
-    public void whiteNoiseEvent(View view) {
+    public void goToWhiteNoiseEvent(View view) {
         Intent whiteNoiseIntent = new Intent (this, WhiteNoisePresenterActivity.class);
         startActivity(whiteNoiseIntent);
     }
+
+    /**
+    Edit: I implemented the app menu bar, and reassigned this
+     method to the "add" icon. I-Ramos
+     */
 
     public void updateStats(View view) {
         Intent intent = new Intent(this, UpdateStatsActivity.class);

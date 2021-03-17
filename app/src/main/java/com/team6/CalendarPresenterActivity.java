@@ -127,5 +127,46 @@ public class CalendarPresenterActivity extends AppCompatActivity {
     }
 
 
+    //function for going back to dashboard.
+    public void goToMainActivity(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * It will profile activity for testing purpose.
+     *
+     * Edit: I implemented the app menu bar, and reassigned this
+     * method to the stroller icon. -Ramos
+     */
+    public void goToProfilesEvent(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+
+    /**
+     * Called when the user clicks on the White Noise button. For testing purposes.
+     * User will be brought to the WhiteNoisePresenterActivity
+     *
+     * Edit: I implemented the app menu bar, and reassigned this
+     * method to the radio icon. -Ramos
+     */
+    public void goToWhiteNoiseEvent(View view) {
+        Intent whiteNoiseIntent = new Intent (this, WhiteNoisePresenterActivity.class);
+        startActivity(whiteNoiseIntent);
+    }
+
+    /**
+     Edit: I implemented the app menu bar, and reassigned this
+     method to the "add" icon. I-Ramos
+     */
+
+    public void updateStats(View view) {
+        Intent intent = new Intent(this, UpdateStatsActivity.class);
+        startActivity(intent);
+    }
+
+
 
 }
