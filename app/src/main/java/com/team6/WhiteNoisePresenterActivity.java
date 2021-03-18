@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +22,11 @@ public class WhiteNoisePresenterActivity extends AppCompatActivity {
     // Create a variable to represent the rain white noise button
     Button rainButton;
 
+    // Create a boolean that tracks whether or not the sound is playing
+    Boolean soundPlaying = false;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +38,37 @@ public class WhiteNoisePresenterActivity extends AppCompatActivity {
         // Create a media player in order to play the rain sound from the raw directory
         final MediaPlayer rainNoise = MediaPlayer.create(this, R.raw.rain);
 
-
         // Add an onclick listener that plays the rain noise when the
-        // rain button is pressed
+        // rain button is pressed and stops it when it is pressed
+        // again
+
+        // Todo: See Releasing a media player to fix the bug that keeps you from starting the player again.
+        // https://developer.android.com/guide/topics/media/mediaplayer#basics
         rainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rainNoise.start();
+                // If the sound isn't playing
+                if (!soundPlaying) {
+                    // Start the noise
+                    rainNoise.start();
+                    // Change the boolean value
+                    soundPlaying = true;
+                    // Make a Toast saying the sound has started
+                    Toast.makeText(WhiteNoisePresenterActivity.this, "Now playing white noise",
+                            Toast.LENGTH_SHORT).show();
+                }
+                // If the sound is already playing
+                else {
+                    // Stop the noise
+                    rainNoise.stop();
+
+                    // Change the boolean value
+                    soundPlaying = false;
+                    // Make a Toast saying the sound has stopped
+                    Toast.makeText(WhiteNoisePresenterActivity.this, "Stopped playing white noise",
+                            Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
