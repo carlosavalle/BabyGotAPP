@@ -17,4 +17,9 @@
         <item>Home</item>
     </string-array>
 
+    <string name="counter1">Milk</string>
+    <string name="counter2">Tummy-time</string>
+    <string name="counter3">Sleep</string>
+    <string name="counter4">Diapers</string>
+
 </resources>
