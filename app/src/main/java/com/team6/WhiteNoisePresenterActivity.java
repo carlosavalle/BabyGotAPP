@@ -19,12 +19,11 @@ import androidx.appcompat.app.AppCompatActivity;
  */
 public class WhiteNoisePresenterActivity extends AppCompatActivity {
 
-    // Create a variable to represent the rain white noise button
-    Button rainButton;
+    // Create variables to represent the buttons
+    Button startButton, pauseButton, stopButton;
 
-    // Create a boolean that tracks whether or not the sound is playing
-    Boolean soundPlaying = false;
-
+    // Create a media player used to store and play the audio
+    MediaPlayer mediaPlayer;
 
 
     @Override
@@ -32,45 +31,59 @@ public class WhiteNoisePresenterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_white_noise_view);
 
-        // Assign the rain button to a button
-        rainButton = (Button)findViewById(R.id.rainButton);
+        // Assign the button variables to the UI buttons
+        startButton = (Button)findViewById(R.id.startButton);
+        pauseButton = (Button)findViewById(R.id.pauseButton);
+        stopButton = (Button)findViewById(R.id.stopButton);
 
-        // Create a media player in order to play the rain sound from the raw directory
-        final MediaPlayer rainNoise = MediaPlayer.create(this, R.raw.rain);
 
-        // Add an onclick listener that plays the rain noise when the
-        // rain button is pressed and stops it when it is pressed
-        // again
-
-        // Todo: See Releasing a media player to fix the bug that keeps you from starting the player again.
-        // https://developer.android.com/guide/topics/media/mediaplayer#basics
-        rainButton.setOnClickListener(new View.OnClickListener() {
+        // Set an onclick listener to play the audio when the
+        // Start button is pressed
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // If the sound isn't playing
-                if (!soundPlaying) {
-                    // Start the noise
-                    rainNoise.start();
-                    // Change the boolean value
-                    soundPlaying = true;
-                    // Make a Toast saying the sound has started
-                    Toast.makeText(WhiteNoisePresenterActivity.this, "Now playing white noise",
-                            Toast.LENGTH_SHORT).show();
+                // If the media player is empty
+                if (mediaPlayer==null) {
+                    // Link the media player with the audio
+                    mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.rain);
                 }
-                // If the sound is already playing
-                else {
-                    // Stop the noise
-                    rainNoise.stop();
-
-                    // Change the boolean value
-                    soundPlaying = false;
-                    // Make a Toast saying the sound has stopped
-                    Toast.makeText(WhiteNoisePresenterActivity.this, "Stopped playing white noise",
-                            Toast.LENGTH_SHORT).show();
-                }
-
+                // Start the audio
+                mediaPlayer.start();
             }
         });
+
+
+        // Set an onclick listener to pause the audio when
+        // the user clicks on the pause button
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // If the media player is not empty
+                if (mediaPlayer!=null) {
+                    mediaPlayer.pause();
+                }
+            }
+        });
+
+
+        // Set an onclick listener that will stop the audio from playing
+        // When the user clicks on the stop button
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // If the media player is not empty
+                if (mediaPlayer!=null) {
+                    // Release the audio
+                    // This is necessary so we don't encounter any bugs
+                    // by playing multiple instances of audio
+                    mediaPlayer.release();
+                    // Set the media player to null
+                    mediaPlayer = null;
+                }
+            }
+        });
+
+
     }
 
     //function for going back to dashboard.
