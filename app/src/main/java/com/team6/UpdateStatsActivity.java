@@ -1,13 +1,22 @@
 package com.team6;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class UpdateStatsActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
@@ -26,7 +35,6 @@ public class UpdateStatsActivity extends AppCompatActivity {
     private static SeekBar seek_bar4;
     @SuppressLint("StaticFieldLeak")
     private static TextView text_view9;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +63,7 @@ public class UpdateStatsActivity extends AppCompatActivity {
         } else if (text_view.equals(text_view8)) {
             text_view.setText(seekbar.getProgress() + " hours");
         } else if (text_view.equals(text_view9)) {
-            text_view.setText(Integer.toString(seekbar.getProgress()));
+            text_view.setText(seekbar.getProgress() + " pcs");
         }
 
         seekbar.setOnSeekBarChangeListener(
@@ -71,14 +79,13 @@ public class UpdateStatsActivity extends AppCompatActivity {
                         } else if (text_view.equals(text_view8)) {
                             text_view.setText((progress) + " hours");
                         } else if (text_view.equals(text_view9)) {
-                            text_view.setText(Integer.toString(progress));
+                            text_view.setText((progress) + " pcs");
                         }
-
                     }
 
                     @Override
                     public void onStartTrackingTouch(SeekBar seekBar) {
-
+                        //
                     }
 
                     @Override
@@ -90,13 +97,43 @@ public class UpdateStatsActivity extends AppCompatActivity {
                         } else if (text_view.equals(text_view8)) {
                             text_view.setText((progress_value) + " hours");
                         } else if (text_view.equals(text_view9)) {
-                            text_view.setText(Integer.toString(progress_value));
+                            text_view.setText((progress_value) + " pcs");
                         }
                     }
                 }
         );
 
     }
+
+    public void saveData(View view) {
+        Context context = getBaseContext();
+        text_view5 = findViewById(R.id.textView5);
+        text_view7 = findViewById(R.id.textView7);
+        text_view8 = findViewById(R.id.textView8);
+        text_view9 = findViewById(R.id.textView9);
+        String milk = (String) text_view5.getText();
+        String tummyTime = (String) text_view7.getText();
+        String sleep = (String) text_view8.getText();
+        String diapers = (String) text_view9.getText();
+        CalendarView test = findViewById(R.id.calendarView4);
+        Long[] test2 = new Long[1];
+        test2[0] = test.getDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String selectedDate = sdf.format(new Date(test.getDate()));
+        test.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView test, int year, int month, int dayOfMonth) {
+                if(test.getDate() != test2[0]){
+                    test2[0] = test.getDate();
+                    Toast.makeText(test.getContext(), "Year=" + year + " Month=" + month + " Day=" + dayOfMonth, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        Toast.makeText(context, selectedDate + " milk: " + milk + " tummy-time: " + tummyTime + " sleep: " + sleep + " diapers: " + diapers, Toast.LENGTH_LONG).show();
+    }
+
+
 
     /**
      * Called when the user clicks on the Events Page button
