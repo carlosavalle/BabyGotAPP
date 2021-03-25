@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
         BabyProfile babyProfile1 = new BabyProfile("1","Aaron", new Date(01,01,2021),"Male","https://firebasestorage.googleapis.com/v0/b/babygotapp.appspot.com/o/Profiles%2Faaron.jpg?alt=media&token=7e4214db-87f0-4330-b7c3-86e76262769a");
         BabyProfile babyProfile2 = new BabyProfile("2","Lucy", new Date(02,02,2021),"Female","https://firebasestorage.googleapis.com/v0/b/babygotapp.appspot.com/o/Profiles%2Flucy.jpg?alt=media&token=270b695e-4e8e-4df9-8e4e-7b2466fcf600");
 
+
+
         FirebaseDatabase.getInstance().getReference().child("BabyProfiles").child(babyProfile1.getId()).setValue(babyProfile1);
         FirebaseDatabase.getInstance().getReference().child("BabyProfiles").child(babyProfile2.getId()).setValue(babyProfile2);
 

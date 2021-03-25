@@ -29,6 +29,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+
+
         rv=findViewById(R.id.rec);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -122,5 +124,13 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+    * Call new profile activity
+    * */
+    public void goToNewProfile(View view) {
 
+        Intent intent = new Intent(this, NewProfile.class);
+
+        startActivity(intent);
+    }
 }

@@ -2,24 +2,24 @@
     <string name="app_name">BabyGotAPP</string>
 
     <!-- Create an array to hold the values of the titleSpinner -->
+    <string name="counter1">Milk</string>
+
+    <!-- Create an array to hold the values of the locationSpinner -->
+    <string name="counter2">Tummy-time</string>
+
+    <string name="counter3">Sleep</string>
+    <string name="counter4">Diapers</string>
     <string-array name="titles">
         <item>Select Title</item>
         <item>Doctors Appointment</item>
         <item>Pediatrician Appointment</item>
         <item>Bath Time</item>
     </string-array>
-
-    <!-- Create an array to hold the values of the locationSpinner -->
     <string-array name="locations">
         <item>Select Location</item>
         <item>Doctors Office</item>
         <item>Pediatricians Office</item>
         <item>Home</item>
     </string-array>
-
-    <string name="counter1">Milk</string>
-    <string name="counter2">Tummy-time</string>
-    <string name="counter3">Sleep</string>
-    <string name="counter4">Diapers</string>
 
 </resources>
