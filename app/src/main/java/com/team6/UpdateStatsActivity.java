@@ -15,8 +15,13 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UpdateStatsActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
@@ -35,6 +40,7 @@ public class UpdateStatsActivity extends AppCompatActivity {
     private static SeekBar seek_bar4;
     @SuppressLint("StaticFieldLeak")
     private static TextView text_view9;
+    FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,23 +122,57 @@ public class UpdateStatsActivity extends AppCompatActivity {
         String sleep = (String) text_view8.getText();
         String diapers = (String) text_view9.getText();
         CalendarView test = findViewById(R.id.calendarView4);
-        Long[] test2 = new Long[1];
-        test2[0] = test.getDate();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        database = FirebaseDatabase.getInstance();
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String selectedDate = sdf.format(new Date(test.getDate()));
-        test.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView test, int year, int month, int dayOfMonth) {
-                if(test.getDate() != test2[0]){
-                    test2[0] = test.getDate();
-                    Toast.makeText(test.getContext(), "Year=" + year + " Month=" + month + " Day=" + dayOfMonth, Toast.LENGTH_LONG).show();
-                }
+        test.setOnDateChangeListener((CalendarView.OnDateChangeListener) (test1, year, month, dayOfMonth) -> {
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+            Date date = null;
+            String MMM = "";
+            if (month == 0) {
+                MMM = "January";
+            } else if (month == 1) {
+                MMM = "February";
+            } else if (month == 2) {
+                MMM = "March";
+            } else if (month == 3) {
+                MMM = "April";
+            } else if (month == 4) {
+                MMM = "May";
+            } else if (month == 5) {
+                MMM = "June";
+            } else if (month == 6) {
+                MMM = "July";
+            } else if (month == 7) {
+                MMM = "August";
+            } else if (month == 8) {
+                MMM = "September";
+            } else if (month == 9) {
+                MMM = "October";
+            } else if (month == 10) {
+                MMM = "November";
+            } else if (month == 11) {
+                MMM = "December";
             }
-        });
 
-        Toast.makeText(context, selectedDate + " milk: " + milk + " tummy-time: " + tummyTime + " sleep: " + sleep + " diapers: " + diapers, Toast.LENGTH_LONG).show();
+            String date1 = dayOfMonth + "-" + MMM + "-" + year;
+            try {
+                date = (Date)formatter.parse(date1);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            long mills = date.getTime();
+                test1.setDate(mills);
+            });
+
+        Toast.makeText(context, "Stats Saved \n" + selectedDate + " \nMilk: " + milk + " \nTummy-time: " + tummyTime + " \nSleep: " + sleep + " \nDiapers: " + diapers, Toast.LENGTH_LONG).show();
+        NumbersUpdate babyStats = new NumbersUpdate( 1, selectedDate, milk, tummyTime, sleep, diapers);
+        String key = database.getReference().child("BabyProfiles").child("1").push().getKey();
+        Map<String, Object> statUpdate = new HashMap<>();
+        statUpdate.put("BabyStats" + key, babyStats);
+        database.getReference().child("BabyProfiles").child("1").updateChildren(statUpdate);
     }
-
 
 
     /**
