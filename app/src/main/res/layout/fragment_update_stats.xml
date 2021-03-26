@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_constraintTop_toBottomOf="@+id/appbar"
+    app:layout_constraintBottom_toTopOf="@+id/navigation"
+    tools:context=".ui.UpdateStatsFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="87dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/counter4"
+            app:layout_constraintStart_toStartOf="@id/seekBar4"
+            app:layout_constraintTop_toBottomOf="@id/seekBar2" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="87dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/counter1"
+            app:layout_constraintStart_toStartOf="@id/seekBar"
+            app:layout_constraintTop_toBottomOf="@id/calendarView4" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            style="@style/Widget.AppCompat.SeekBar"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:max="25"
+            android:progress="8"
+            app:layout_constraintEnd_toStartOf="@id/seekBar2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView3" />
+
+        <SeekBar
+            android:id="@+id/seekBar2"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:max="24"
+            android:progress="1"
+            app:layout_constraintBottom_toBottomOf="@id/seekBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/seekBar"
+            app:layout_constraintTop_toBottomOf="@id/textView2" />
+
+        <SeekBar
+            android:id="@+id/seekBar3"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:max="24"
+            android:progress="1"
+            app:layout_constraintStart_toStartOf="@id/textView"
+            app:layout_constraintTop_toBottomOf="@id/textView" />
+
+        <SeekBar
+            android:id="@+id/seekBar4"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:max="20"
+            android:progress="1"
+            app:layout_constraintBottom_toBottomOf="@id/seekBar3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/seekBar3"
+            app:layout_constraintTop_toBottomOf="@id/textView4" />
+
+        <Button
+            android:id="@+id/save_data_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:onClick="saveData"
+            android:text="Save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/seekBar3" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="87dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/counter3"
+            app:layout_constraintStart_toStartOf="@id/seekBar"
+            app:layout_constraintTop_toBottomOf="@id/seekBar" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="87dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/counter2"
+            app:layout_constraintStart_toStartOf="@id/seekBar2"
+            app:layout_constraintTop_toBottomOf="@id/calendarView4" />
+
+        <CalendarView
+            android:id="@+id/calendarView4"
+            android:layout_width="357dp"
+            android:layout_height="296dp"
+            android:layout_marginBottom="476dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="411dp"
+            android:layout_height="55dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+
+            <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/bottomAppBar"
+                style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                app:backgroundTint="#03a9f4"
+                app:layout_anchor="@+id/bottomAppBar"
+                app:layout_anchorGravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginBottom="12dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@id/seekBar"
+            app:layout_constraintStart_toEndOf="@id/textView3" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginBottom="12dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@id/seekBar2"
+            app:layout_constraintStart_toEndOf="@id/textView2" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginBottom="12dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@id/seekBar3"
+            app:layout_constraintStart_toEndOf="@id/textView" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginBottom="12dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@id/seekBar4"
+            app:layout_constraintStart_toEndOf="@id/textView4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

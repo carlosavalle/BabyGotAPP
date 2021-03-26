@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:backgroundTint="#03a9f4"
-            app:layout_anchor="@+id/bottomAppBar"
+            app:layout_anchor="@id/bottomAppBar"
             app:layout_anchorGravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
