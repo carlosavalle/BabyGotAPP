@@ -3,10 +3,6 @@ package com.team6.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +12,24 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
+import com.google.firebase.database.FirebaseDatabase;
+import com.team6.NumbersUpdate;
 import com.team6.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link UpdateStatsFragment#} factory method to
  * create an instance of this fragment.
  */
-public class UpdateStatsFragment extends Fragment implements View.OnClickListener {
+public class UpdateStatsFragment extends Fragment {
     @SuppressLint("StaticFieldLeak")
     private static SeekBar seek_bar;
     @SuppressLint("StaticFieldLeak")
@@ -43,6 +46,7 @@ public class UpdateStatsFragment extends Fragment implements View.OnClickListene
     private static SeekBar seek_bar4;
     @SuppressLint("StaticFieldLeak")
     private static TextView text_view9;
+    FirebaseDatabase database;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,7 @@ public class UpdateStatsFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View fragment =  inflater.inflate(R.layout.fragment_update_stats, container, false);
+        View fragment = inflater.inflate(R.layout.fragment_update_stats, container, false);
         seek_bar = fragment.findViewById(R.id.seekBar);
         text_view5 = fragment.findViewById(R.id.textView5);
         seek_bar2 = fragment.findViewById(R.id.seekBar2);
@@ -63,31 +67,20 @@ public class UpdateStatsFragment extends Fragment implements View.OnClickListene
         text_view8 = fragment.findViewById(R.id.textView8);
         seek_bar4 = fragment.findViewById(R.id.seekBar4);
         text_view9 = fragment.findViewById(R.id.textView9);
-        seekBar(seek_bar,text_view5);
-        seekBar(seek_bar2,text_view7);
-        seekBar(seek_bar3,text_view8);
-        seekBar(seek_bar4,text_view9);
+        seekBar(seek_bar, text_view5);
+        seekBar(seek_bar2, text_view7);
+        seekBar(seek_bar3, text_view8);
+        seekBar(seek_bar4, text_view9);
 
         // Save Data Button
         Button saveDataBtn = fragment.findViewById(R.id.save_data_btn);
-        saveDataBtn.setOnClickListener(this);
+
+        // Register all click events here instead of the fragment's .xml file.
+        saveDataBtn.setOnClickListener(v -> saveData(v));
 
         return fragment;
     }
 
-    /**
-     * Register all click events here instead of the fragment's .xml file.
-     * @param v
-     */
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.save_data_btn:
-                saveData(v);
-            default:
-                saveData(v);
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     public void seekBar(SeekBar seekbar, TextView text_view) {
@@ -104,6 +97,7 @@ public class UpdateStatsFragment extends Fragment implements View.OnClickListene
         seekbar.setOnSeekBarChangeListener(
                 new SeekBar.OnSeekBarChangeListener() {
                     int progress_value;
+
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         progress_value = progress;
@@ -147,21 +141,54 @@ public class UpdateStatsFragment extends Fragment implements View.OnClickListene
         String sleep = (String) text_view8.getText();
         String diapers = (String) text_view9.getText();
         CalendarView test = getView().findViewById(R.id.calendarView4);
-        Long[] test2 = new Long[1];
-        test2[0] = test.getDate();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        database = FirebaseDatabase.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String selectedDate = sdf.format(new Date(test.getDate()));
-        test.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView test, int year, int month, int dayOfMonth) {
-                if(test.getDate() != test2[0]){
-                    test2[0] = test.getDate();
-                    Toast.makeText(test.getContext(), "Year=" + year + " Month=" + month + " Day=" + dayOfMonth, Toast.LENGTH_LONG).show();
-                }
+        test.setOnDateChangeListener((CalendarView.OnDateChangeListener) (test1, year, month, dayOfMonth) -> {
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+            Date date = null;
+            String MMM = "";
+            if (month == 0) {
+                MMM = "January";
+            } else if (month == 1) {
+                MMM = "February";
+            } else if (month == 2) {
+                MMM = "March";
+            } else if (month == 3) {
+                MMM = "April";
+            } else if (month == 4) {
+                MMM = "May";
+            } else if (month == 5) {
+                MMM = "June";
+            } else if (month == 6) {
+                MMM = "July";
+            } else if (month == 7) {
+                MMM = "August";
+            } else if (month == 8) {
+                MMM = "September";
+            } else if (month == 9) {
+                MMM = "October";
+            } else if (month == 10) {
+                MMM = "November";
+            } else if (month == 11) {
+                MMM = "December";
             }
+
+            String date1 = dayOfMonth + "-" + MMM + "-" + year;
+            try {
+                date = (Date) formatter.parse(date1);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            long mills = date.getTime();
+            test1.setDate(mills);
         });
 
-        Toast.makeText(context, selectedDate + " milk: " + milk + " tummy-time: " + tummyTime + " sleep: " + sleep + " diapers: " + diapers, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Stats Saved \n" + selectedDate + " \nMilk: " + milk + " \nTummy-time: " + tummyTime + " \nSleep: " + sleep + " \nDiapers: " + diapers, Toast.LENGTH_LONG).show();
+        NumbersUpdate babyStats = new NumbersUpdate(1, selectedDate, milk, tummyTime, sleep, diapers);
+        String key = database.getReference().child("BabyProfiles").child("1").push().getKey();
+        Map<String, Object> statUpdate = new HashMap<>();
+        statUpdate.put("BabyStats" + key, babyStats);
+        database.getReference().child("BabyProfiles").child("1").updateChildren(statUpdate);
     }
-
 }
