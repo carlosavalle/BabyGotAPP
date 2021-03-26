@@ -4,14 +4,14 @@ package com.team6;
 import java.util.Date;
 
 public class NumbersUpdate {
-    private String id;
-    private Date date;
+    private int id;
+    private String date;
     private String milk;
     private String tummyTime;
     private String sleep;
     private String diapers;
 
-    public NumbersUpdate(String id, Date date, String milk, String tummyTime, String sleep, String diapers) {
+    public NumbersUpdate(int id, String date, String milk, String tummyTime, String sleep, String diapers) {
         this.id = id;
         this.date = date;
         this.milk = milk;
@@ -20,11 +20,11 @@ public class NumbersUpdate {
         this.diapers = diapers;
     }
 
-    public String getID() {
+    public int getID() {
         return id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
