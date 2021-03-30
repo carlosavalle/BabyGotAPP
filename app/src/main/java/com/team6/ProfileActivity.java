@@ -38,7 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
         rv.addItemDecoration(decoration);
         babyProfiles =new ArrayList<>();
         databaseReference= FirebaseDatabase.getInstance().getReference("BabyProfiles");
-        getImageData();
+       // getImageData();
 
 
 

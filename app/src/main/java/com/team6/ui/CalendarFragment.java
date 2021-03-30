@@ -2,10 +2,8 @@ package com.team6.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +13,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
+import com.team6.GlobalVariable;
 import com.team6.R;
 
 /**
@@ -32,6 +33,8 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final GlobalVariable globalVariable = (GlobalVariable) getContext().getApplicationContext();
+        Log.d("Carlos", globalVariable.getIdProfile());
 
     }
 

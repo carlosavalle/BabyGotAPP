@@ -1,6 +1,7 @@
 package com.team6;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,17 @@ public class BabyProfileAdapter extends RecyclerView.Adapter<BabyProfileAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         BabyProfile babyProfile= babyProfiles.get(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final GlobalVariable globalVariable = (GlobalVariable) ct.getApplicationContext();
+                globalVariable.setIdProfile(babyProfile.getId());
+
+                Log.d("Carlos", babyProfile.getId());
+
+            }
+        });
+        //BabyProfile babyProfile= babyProfiles.get(position);
         Glide.with(ct)
                 .load(babyProfile.getPicture())
                 .into(holder.profileimg);
@@ -41,6 +53,7 @@ public class BabyProfileAdapter extends RecyclerView.Adapter<BabyProfileAdapter.
         holder.profilename.setText(babyProfile.getName());
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -56,5 +69,6 @@ public class BabyProfileAdapter extends RecyclerView.Adapter<BabyProfileAdapter.
             profilename=itemView.findViewById(R.id.profile_name);
         }
     }
+
 }
 
