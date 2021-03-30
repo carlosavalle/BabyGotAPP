@@ -33,8 +33,7 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final GlobalVariable globalVariable = (GlobalVariable) getContext().getApplicationContext();
-        Log.d("Carlos", globalVariable.getIdProfile());
+
 
     }
 
