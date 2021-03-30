@@ -1,19 +1,16 @@
 package com.team6;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
-import android.widget.DatePicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -167,7 +164,7 @@ public class UpdateStatsActivity extends AppCompatActivity {
             });
 
         Toast.makeText(context, "Stats Saved \n" + selectedDate + " \nMilk: " + milk + " \nTummy-time: " + tummyTime + " \nSleep: " + sleep + " \nDiapers: " + diapers, Toast.LENGTH_LONG).show();
-        NumbersUpdate babyStats = new NumbersUpdate( 1, selectedDate, milk, tummyTime, sleep, diapers);
+        NumbersUpdate babyStats = new NumbersUpdate( "1", milk, tummyTime, sleep, diapers);
         String key = database.getReference().child("BabyProfiles").child("1").push().getKey();
         Map<String, Object> statUpdate = new HashMap<>();
         statUpdate.put("BabyStats" + key, babyStats);
