@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.FirebaseDatabase;
+import com.team6.GlobalVariable;
 import com.team6.NumbersUpdate;
 import com.team6.R;
 
@@ -142,7 +143,7 @@ public class UpdateStatsFragment extends Fragment {
         String diapers = (String) text_view9.getText();
         CalendarView test = getView().findViewById(R.id.calendarView4);
         database = FirebaseDatabase.getInstance();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
         String selectedDate = sdf.format(new Date(test.getDate()));
         test.setOnDateChangeListener((CalendarView.OnDateChangeListener) (test1, year, month, dayOfMonth) -> {
             @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
@@ -185,10 +186,14 @@ public class UpdateStatsFragment extends Fragment {
         });
 
         Toast.makeText(context, "Stats Saved \n" + selectedDate + " \nMilk: " + milk + " \nTummy-time: " + tummyTime + " \nSleep: " + sleep + " \nDiapers: " + diapers, Toast.LENGTH_LONG).show();
-        NumbersUpdate babyStats = new NumbersUpdate(1, selectedDate, milk, tummyTime, sleep, diapers);
-        String key = database.getReference().child("BabyProfiles").child("1").push().getKey();
+        final GlobalVariable globalVariable = (GlobalVariable) getContext().getApplicationContext();
+
+        NumbersUpdate babyStats = new NumbersUpdate( globalVariable.getIdProfile(), milk, tummyTime, sleep, diapers);
+        //String key = database.getReference().child("BabyProfiles").child("1").push().getKey();
+
         Map<String, Object> statUpdate = new HashMap<>();
-        statUpdate.put("BabyStats" + key, babyStats);
+       // statUpdate.put("BabyStats" + new Date(), babyStats);
+        statUpdate.put(selectedDate, babyStats);
         database.getReference().child("BabyProfiles").child("1").updateChildren(statUpdate);
     }
 }
