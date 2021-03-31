@@ -194,6 +194,6 @@ public class UpdateStatsFragment extends Fragment {
         Map<String, Object> statUpdate = new HashMap<>();
        // statUpdate.put("BabyStats" + new Date(), babyStats);
         statUpdate.put(selectedDate, babyStats);
-        database.getReference().child("BabyProfiles").child("1").updateChildren(statUpdate);
+        database.getReference().child("BabyProfiles").child(globalVariable.getIdProfile()).child("Stats").updateChildren(statUpdate);
     }
 }
