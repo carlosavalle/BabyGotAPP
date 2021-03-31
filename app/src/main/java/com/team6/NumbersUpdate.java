@@ -1,31 +1,24 @@
 package com.team6;
 
 
-import java.util.Date;
-
 public class NumbersUpdate {
-    private int id;
-    private String date;
+    private String id;
+
     private String milk;
     private String tummyTime;
     private String sleep;
     private String diapers;
 
-    public NumbersUpdate(int id, String date, String milk, String tummyTime, String sleep, String diapers) {
+    public NumbersUpdate(String id, String milk, String tummyTime, String sleep, String diapers) {
         this.id = id;
-        this.date = date;
         this.milk = milk;
         this.tummyTime = tummyTime;
         this.sleep = sleep;
         this.diapers = diapers;
     }
 
-    public int getID() {
+    public String getID() {
         return id;
-    }
-
-    public String getDate() {
-        return date;
     }
 
     public String getMilk() {
