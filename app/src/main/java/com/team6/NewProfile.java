@@ -29,18 +29,19 @@ import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
-public class NewProfile extends AppCompatActivity {
-    String PicURL = "";
-    String KeyDB;
+public class NewProfile extends AppCompatActivity implements  View.OnClickListener {
+    private String PicURL = "";
     private int mYearIni, mMonthIni, mDayIni, sYearIni, sMonthIni, sDayIni;
-    EditText pickDate;
-    String gender = "";
+    private EditText pickDate;
+    private String gender = "";
     static final int DATE_ID = 0;
-    Calendar C = Calendar.getInstance();
-    Bitmap photo;
+    private Calendar C = Calendar.getInstance();
+    private Bitmap photo;
     private static final int CAMERA_REQ = 1;
 
-    FirebaseDatabase database;
+    private FirebaseDatabase database;
+
+    private RadioButton rbBoy, rbGirl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,49 +57,17 @@ public class NewProfile extends AppCompatActivity {
         //hide keyboard
         pickDate.requestFocus();
         pickDate.setShowSoftInputOnFocus(false);
-        pickDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        pickDate.setOnClickListener(this);
 
-                showDialog(DATE_ID);
-            }
-        });
         // to check radio boxes gender
-        RadioButton rbBoy = (RadioButton) findViewById(R.id.RB_boy);
-        RadioButton rbGirl = (RadioButton) findViewById(R.id.RB_Girl);
+         rbBoy = findViewById(R.id.RB_boy);
+         rbBoy.setOnClickListener(this);
+         rbGirl = findViewById(R.id.RB_Girl);
+         rbGirl.setOnClickListener(this);
 
-        rbBoy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean checked = ((RadioButton) v).isChecked();
-                // Check which radiobutton was pressed
-                if (checked){
-                    rbGirl.setChecked(false);
-                    gender = "Male";
-                    // Do your coding
-                }
-                else{
-                    // Do your coding
-                }
-            }
-        });
+         // set on click for save button
+        findViewById(R.id.btn_Create).setOnClickListener(this);
 
-
-        rbGirl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean checked = ((RadioButton) v).isChecked();
-                // Check which radiobutton was pressed
-                if (checked){
-                    // Do your coding
-                    rbBoy.setChecked(false);
-                    gender = "Female";
-                }
-                else{
-                    // Do your coding
-                }
-            }
-        });
 
     }
 
@@ -108,7 +77,7 @@ public class NewProfile extends AppCompatActivity {
     }
 
 
-    //pick the date
+    //pick the date from calendar, and save the value on each variable.
     private DatePickerDialog.OnDateSetListener mDateSetListener =
             new DatePickerDialog.OnDateSetListener() {
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -122,38 +91,29 @@ public class NewProfile extends AppCompatActivity {
             };
 
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case DATE_ID:
-                return new DatePickerDialog(this, mDateSetListener, sYearIni, sMonthIni, sDayIni);
-        }
-
-        return null;
-    }
-
-    // check for radio box if checked
-
-
+// it takes a picture with the phone camera
     public void takepic (View v){
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraIntent, CAMERA_REQ);
 
     }
 
+    // it upload a picture to firebase
     public void Upload (String key){
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        // compress the picture from the camera and save it in bytes
         photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-
         byte[] b = stream.toByteArray();
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Profiles").child(key);
 
+        // get the storage references in Firebase
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Profiles").child(key);
         storageReference.putBytes(b).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(
                         new OnCompleteListener<Uri>() {
-
+                            //checks if the picture as been updated, when it is compleate it saves the new baby profile on the database.
                             @Override
                             public void onComplete(@NonNull Task<Uri> task) {
                                 PicURL= task.getResult().toString();
@@ -164,37 +124,69 @@ public class NewProfile extends AppCompatActivity {
 
                             }
                         });
-
             }
         }).addOnFailureListener(new OnFailureListener() {
+            // if it did not upload, it will shows a message that it fails.
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(NewProfile.this,"failed",Toast.LENGTH_LONG).show();
-
-
             }
         });
     }
 
+    //check if the camera took the picture and save it into photo cariable.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // check if the picture has been taken
         if (requestCode == CAMERA_REQ && resultCode == RESULT_OK) {
-
+            // save the picture in the local variable
             photo = (Bitmap) data.getExtras().get("data");
-
-
-            ImageView first = (ImageView) findViewById(R.id.IV_Pic);
-            first.setImageBitmap(photo);
-           //  Upload();
+            // show the picture in the image view.
+            ImageView iv = (ImageView) findViewById(R.id.IV_Pic);
+            iv.setImageBitmap(photo);
 
         }
     }
 
-    public void Create(View v){
+    // it will check the onClick event for the activity elements
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            // check for radio gender box if checked
+            case R.id.RB_boy:
+                if(((RadioButton) v).isChecked()){
+                    rbGirl.setChecked(false);
+                    gender = "Male";
+                }
+                break;
+            case R.id.RB_Girl:
+                if(((RadioButton) v).isChecked()){
+                    rbBoy.setChecked(false);
+                    gender = "Female";
+                }
+                break;
+                // check for calendar show up
+            case R.id.date:
+                showDialog(DATE_ID);
+                break;
+                // will create a id key and send it to upload
+            case R.id.btn_Create:
+                
+                String key = database.getReference().child("BabyProfiles").push().getKey();
+                Upload(key);
+                break;
 
-        String key = database.getReference().child("BabyProfiles").push().getKey();
-        Upload(key);
-
-
+        }
     }
+    // show calendar and send local date variable
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DATE_ID:
+                return new DatePickerDialog(this, mDateSetListener, sYearIni, sMonthIni, sDayIni);
+        }
+
+        return null;
+    }
+
 }
