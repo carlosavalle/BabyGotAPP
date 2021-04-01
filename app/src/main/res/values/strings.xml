@@ -30,4 +30,12 @@
     <string name="title_profile">Baby Profile</string>
     <string name="title_calendar">Calendar</string>
 
+    <string name="milk_progress">Milk</string>
+    <string name="sleep_progress">Sleep</string>
+    <string name="tummyTime_progress">Tummy Time</string>
+    <string name="diaper_progress">Diapers</string>
+
+    <string name="title_dashboard">Dashboard</string>
+    <string name="header_dashboard">Today</string>
+
 </resources>

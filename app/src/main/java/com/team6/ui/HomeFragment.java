@@ -1,14 +1,22 @@
 package com.team6.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.team6.NumbersUpdate;
 import com.team6.R;
 
 /**
@@ -56,6 +64,8 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        updateProgressBars();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -63,4 +73,37 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
+
+
+
+    public void updateProgressBars() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("BabyProfiles").child("1").child("03-31-2021");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                NumbersUpdate numbersUpdate = snapshot.getValue(NumbersUpdate.class);
+
+                //ProgressBar MilkProgressBar = findViewById(R.id.progressBar2);
+                ProgressBar SleepProgressBar = (ProgressBar) getView().findViewById(R.id.progressBar2);
+                //ProgressBar TummyTimeProgressBar = (ProgressBar)findViewById(R.id.progressBar2);
+                //ProgressBar DiaperProgressBar = (ProgressBar)findViewById(R.id.progressBar3);
+
+
+                int sleepValue = Integer.parseInt( numbersUpdate.getSleep());
+
+                //SleepProgressBar.setProgress( sleepValue / 20);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("Data Load Error", "Could not load data from firebase");
+            }
+        });
+
+
+    }
+
 }
+
