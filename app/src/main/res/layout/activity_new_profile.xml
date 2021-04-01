@@ -84,7 +84,6 @@
         android:layout_marginStart="156dp"
         android:layout_marginTop="97dp"
         android:layout_marginBottom="128dp"
-        android:onClick="Create"
         android:text="Create"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
