@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment {
 
 
     public void updateProgressBars() {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("BabyProfiles").child("1").child("03-31-2021");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("BabyProfiles").child("1").child("Stats").child("03-31-2021");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment {
                 //ProgressBar DiaperProgressBar = (ProgressBar)findViewById(R.id.progressBar3);
 
 
-                int sleepValue = Integer.parseInt( numbersUpdate.getSleep());
+               int sleepValue = Integer.parseInt( numbersUpdate.getSleep());
 
                 //SleepProgressBar.setProgress( sleepValue / 20);
 

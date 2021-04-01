@@ -9,6 +9,9 @@ public class NumbersUpdate {
     private String sleep;
     private String diapers;
 
+    public NumbersUpdate() {
+    }
+
     public NumbersUpdate(String id, String milk, String tummyTime, String sleep, String diapers) {
         this.id = id;
         this.milk = milk;
