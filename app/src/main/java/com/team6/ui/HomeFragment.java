@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -82,15 +83,19 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 NumbersUpdate numbersUpdate = snapshot.getValue(NumbersUpdate.class);
 
-                //ProgressBar MilkProgressBar = findViewById(R.id.progressBar2);
-//                ProgressBar SleepProgressBar = (ProgressBar) getView().findViewById(R.id.progressBar2);
-                //ProgressBar TummyTimeProgressBar = (ProgressBar)findViewById(R.id.progressBar2);
-                //ProgressBar DiaperProgressBar = (ProgressBar)findViewById(R.id.progressBar3);
+                ProgressBar MilkProgressBar = (ProgressBar) getView().findViewById(R.id.progressBar5);
+                ProgressBar SleepProgressBar = (ProgressBar) getView().findViewById(R.id.progressBar2);
+                ProgressBar TummyTimeProgressBar = (ProgressBar) getView().findViewById(R.id.progressBar3);
+                ProgressBar DiaperProgressBar = (ProgressBar) getView().findViewById(R.id.progressBar4);
 
 
         //       int sleepValue = Integer.parseInt( numbersUpdate.getSleep());
 
-                //SleepProgressBar.setProgress( sleepValue / 20);
+                MilkProgressBar.setProgress( 50);
+                SleepProgressBar.setProgress( 30);
+                TummyTimeProgressBar.setProgress( 70);
+                DiaperProgressBar.setProgress( 80);
+
 
 
             }
