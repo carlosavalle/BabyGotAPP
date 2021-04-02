@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -84,7 +83,7 @@ public class HomeFragment extends Fragment {
                 NumbersUpdate numbersUpdate = snapshot.getValue(NumbersUpdate.class);
 
                 //ProgressBar MilkProgressBar = findViewById(R.id.progressBar2);
-                ProgressBar SleepProgressBar = (ProgressBar) getView().findViewById(R.id.progressBar2);
+//                ProgressBar SleepProgressBar = (ProgressBar) getView().findViewById(R.id.progressBar2);
                 //ProgressBar TummyTimeProgressBar = (ProgressBar)findViewById(R.id.progressBar2);
                 //ProgressBar DiaperProgressBar = (ProgressBar)findViewById(R.id.progressBar3);
 

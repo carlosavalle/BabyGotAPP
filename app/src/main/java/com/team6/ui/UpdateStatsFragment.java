@@ -25,7 +25,6 @@ import com.team6.GlobalVariable;
 import com.team6.NumbersUpdate;
 import com.team6.R;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -66,10 +65,13 @@ public class UpdateStatsFragment extends Fragment {
         // load stats with the actual date
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
-       mDate= formatter.format(date);
-        // called to update stats with the actual date
-        updateProgressBars(mDate);
-
+        mDate= formatter.format(date);
+        // called to update stats with the actual date  and check if a profile has been selected.
+        if (globalVariable.getIdProfile() != null) {
+            updateProgress(mDate);
+        }else{
+            Toast.makeText(getActivity().getBaseContext(), "Select a profile", Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -115,9 +117,14 @@ public class UpdateStatsFragment extends Fragment {
                 String strDate= formatter.format(date);
                 mDate = strDate;
                 // update the progress bar with the date selected
-                updateProgressBars(strDate);
+                if (globalVariable.getIdProfile() != null) {
+                    updateProgress(strDate);
+                }else{
+                    Toast.makeText(getActivity().getBaseContext(), "Select a profile", Toast.LENGTH_LONG).show();
+                }
 
-                Toast.makeText(getActivity().getBaseContext(), strDate, 0).show();// TODO Auto-generated method stub
+
+
 
             }
         });
@@ -126,7 +133,7 @@ public class UpdateStatsFragment extends Fragment {
     }
 
     // update the progress bar with the date selected receive a date
-    public void updateProgressBars(String date) {
+    public void updateProgress(String date) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("BabyProfiles").child(globalVariable.getIdProfile()).child("Stats").child(date.trim());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -214,15 +221,23 @@ public class UpdateStatsFragment extends Fragment {
         String sleep = (String) text_view8.getText();
         String diapers = (String) text_view9.getText();
         CalendarView calendar = getView().findViewById(R.id.calendarView4);
-        database = FirebaseDatabase.getInstance();
 
-        Toast.makeText(context, "Stats Saved \n" + mDate + " \nMilk: " + milk + " \nTummy-time: " + tummyTime + " \nSleep: " + sleep + " \nDiapers: " + diapers, Toast.LENGTH_LONG).show();
 
-        // create a new baby stat with data selected in the activity.
-        NumbersUpdate babyStats = new NumbersUpdate( globalVariable.getIdProfile(),String.valueOf( seek_bar_milk.getProgress()), String.valueOf(seek_bar_tummytime.getProgress()), String.valueOf(seek_bar_sleep.getProgress()),String.valueOf( seek_bar_diapers.getProgress()));
-        // save stats om tje datanase
-        Map<String, Object> statUpdate = new HashMap<>();
-        statUpdate.put(mDate, babyStats);
-        database.getReference().child("BabyProfiles").child(globalVariable.getIdProfile()).child("Stats").updateChildren(statUpdate);
+
+        if (globalVariable.getIdProfile() != null) {
+            //show the new changes to the user
+            Toast.makeText(context, "Stats Saved \n" + mDate + " \nMilk: " + milk + " \nTummy-time: " + tummyTime + " \nSleep: " + sleep + " \nDiapers: " + diapers, Toast.LENGTH_LONG).show();
+            //create an instance
+            database = FirebaseDatabase.getInstance();
+            // create a new baby stat with data selected in the activity.
+            NumbersUpdate babyStats = new NumbersUpdate( globalVariable.getIdProfile(),String.valueOf( seek_bar_milk.getProgress()), String.valueOf(seek_bar_tummytime.getProgress()), String.valueOf(seek_bar_sleep.getProgress()),String.valueOf( seek_bar_diapers.getProgress()));
+            // save stats on the database
+            Map<String, Object> statUpdate = new HashMap<>();
+            statUpdate.put(mDate, babyStats);
+            database.getReference().child("BabyProfiles").child(globalVariable.getIdProfile()).child("Stats").updateChildren(statUpdate);
+        }else{
+            Toast.makeText(getActivity().getBaseContext(), "Select a profile", Toast.LENGTH_LONG).show();
+        }
+
     }
 }
