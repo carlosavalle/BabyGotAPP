@@ -45,17 +45,10 @@ public class NewProfile extends AppCompatActivity implements  View.OnClickListen
     private RadioButton rbBoy, rbGirl;
     private static SeekBar mSB_milk, mSB_tummy, mSB_sleep, mSB_diapers;
 
-
-
-
+    //seek bar
     private static TextView mTX_milk;
-
-
     private static TextView mTX_sleep;
-
     private static TextView mTX_tammy;
-
-
     private static TextView mTX_diapear;
 
 
