@@ -1,7 +1,7 @@
 package com.team6;
 
 import java.util.Date;
-
+// this class is the baby profile object. it is used to save and retrieve information from the database.
 public class BabyProfile {
     private String id;
     private String Name;

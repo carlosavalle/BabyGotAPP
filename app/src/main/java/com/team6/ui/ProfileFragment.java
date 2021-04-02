@@ -67,7 +67,7 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
+// it gets the babyprofile for each profile and add these to the adapter.
     private void getImageData() {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
