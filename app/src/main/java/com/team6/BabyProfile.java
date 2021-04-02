@@ -8,16 +8,24 @@ public class BabyProfile {
     private Date Birthday;
     private String Gender;
     private String Picture;
+    private int Milk;
+    private int TummyTime;
+    private int Sleep;
+    private int Diapers;
 
     public BabyProfile() {
     }
 
-    public BabyProfile(String id, String name, Date birthday, String gender, String picture) {
+    public BabyProfile(String id, String name, Date birthday, String gender, String picture, int milk, int tummyTime, int sleep, int diapers) {
         this.id = id;
         Name = name;
         Birthday = birthday;
         Gender = gender;
         Picture = picture;
+        Milk = milk;
+        TummyTime = tummyTime;
+        Sleep = sleep;
+        Diapers = diapers;
     }
 
     public String getId() {
@@ -58,5 +66,37 @@ public class BabyProfile {
 
     public void setPicture(String picture) {
         Picture = picture;
+    }
+
+    public int getMilk() {
+        return Milk;
+    }
+
+    public void setMilk(int milk) {
+        Milk = milk;
+    }
+
+    public int getTummyTime() {
+        return TummyTime;
+    }
+
+    public void setTummyTime(int tummyTime) {
+        TummyTime = tummyTime;
+    }
+
+    public int getSleep() {
+        return Sleep;
+    }
+
+    public void setSleep(int sleep) {
+        Sleep = sleep;
+    }
+
+    public int getDiapers() {
+        return Diapers;
+    }
+
+    public void setDiapers(int diapers) {
+        Diapers = diapers;
     }
 }

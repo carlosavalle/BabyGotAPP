@@ -7,7 +7,7 @@
     tools:context=".UpdateStatsActivity">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tx_diaper"
         android:layout_width="87dp"
         android:layout_height="23dp"
         android:layout_marginTop="32dp"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toBottomOf="@+id/seekBar2" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tx_milk"
         android:layout_width="87dp"
         android:layout_height="23dp"
         android:layout_marginTop="32dp"
@@ -35,7 +35,7 @@
         app:layout_constraintEnd_toStartOf="@+id/seekBar2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/tx_milk" />
 
     <SeekBar
         android:id="@+id/seekBar2"
@@ -48,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/seekBar"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/tx_tammy" />
 
     <SeekBar
         android:id="@+id/seekBar3"
@@ -57,8 +57,8 @@
         android:layout_marginTop="8dp"
         android:max="24"
         android:progress="1"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/tx_sleep"
+        app:layout_constraintTop_toBottomOf="@+id/tx_sleep" />
 
     <SeekBar
         android:id="@+id/seekBar4"
@@ -70,7 +70,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/seekBar3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/seekBar3"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/tx_diaper" />
 
     <Button
         android:id="@+id/button2"
@@ -87,7 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/seekBar3" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tx_sleep"
         android:layout_width="87dp"
         android:layout_height="23dp"
         android:layout_marginTop="32dp"
@@ -96,7 +96,7 @@
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tx_tammy"
         android:layout_width="87dp"
         android:layout_height="23dp"
         android:layout_marginTop="32dp"
@@ -224,7 +224,7 @@
         android:layout_marginBottom="12dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintStart_toEndOf="@+id/textView3" />
+        app:layout_constraintStart_toEndOf="@+id/tx_milk" />
 
     <TextView
         android:id="@+id/textView7"
@@ -234,7 +234,7 @@
         android:layout_marginBottom="12dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/seekBar2"
-        app:layout_constraintStart_toEndOf="@+id/textView2" />
+        app:layout_constraintStart_toEndOf="@+id/tx_tammy" />
 
     <TextView
         android:id="@+id/textView8"
@@ -244,7 +244,7 @@
         android:layout_marginBottom="12dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/seekBar3"
-        app:layout_constraintStart_toEndOf="@+id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/tx_sleep" />
 
     <TextView
         android:id="@+id/textView9"
@@ -254,6 +254,6 @@
         android:layout_marginBottom="12dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/seekBar4"
-        app:layout_constraintStart_toEndOf="@+id/textView4" />
+        app:layout_constraintStart_toEndOf="@+id/tx_diaper" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

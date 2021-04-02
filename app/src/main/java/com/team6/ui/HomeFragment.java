@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment {
                 //ProgressBar DiaperProgressBar = (ProgressBar)findViewById(R.id.progressBar3);
 
 
-               int sleepValue = Integer.parseInt( numbersUpdate.getSleep());
+        //       int sleepValue = Integer.parseInt( numbersUpdate.getSleep());
 
                 //SleepProgressBar.setProgress( sleepValue / 20);
 

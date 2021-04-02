@@ -12,36 +12,34 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_weight="1"
-        android:onClick="takepic"
         android:text="Take"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/IV_Pic" />
 
-    <EditText
-        android:id="@+id/ETName"
+    <Button
+        android:id="@+id/btn_Create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Create"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/ETName"
+        android:layout_width="342dp"
+        android:layout_height="47dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnTakePic" />
-
-    <EditText
-        android:id="@+id/date"
-        android:layout_width="134dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="244dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Birthday"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RB_Girl" />
 
     <ImageView
         android:id="@+id/IV_Pic"
@@ -59,34 +57,132 @@
         android:id="@+id/RB_Girl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="260dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="252dp"
         android:text="Girl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ETName" />
+
+    <TextView
+        android:id="@+id/tx_sleep"
+        android:layout_width="135dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/counter3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sb_milk" />
+
+    <TextView
+        android:id="@+id/tx_milk"
+        android:layout_width="87dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/counter1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RB_Girl" />
+
+    <EditText
+        android:id="@+id/date"
+        android:layout_width="134dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Birthday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ETName" />
+
+    <SeekBar
+        android:id="@+id/sb_diapers"
+        android:layout_width="134dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="28dp"
+        android:ems="10"
+        android:max="15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tx_diaper" />
+
+    <TextView
+        android:id="@+id/tx_tammy"
+        android:layout_width="147dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/counter2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date" />
+
+    <SeekBar
+        android:id="@+id/sb_milk"
+        android:layout_width="134dp"
+        android:layout_height="52dp"
+        android:max="50"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tx_milk" />
+
+    <SeekBar
+        android:id="@+id/sb_tummy"
+        android:layout_width="134dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="28dp"
+        android:ems="10"
+        android:max="15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tx_tammy" />
+
+    <SeekBar
+        android:id="@+id/sb_sleep"
+        android:layout_width="134dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:max="20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tx_sleep" />
+
+    <TextView
+        android:id="@+id/tx_diaper"
+        android:layout_width="135dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="28dp"
+        android:text="@string/counter4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sb_tummy" />
 
     <RadioButton
         android:id="@+id/RB_boy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="12dp"
         android:text="Boy"
         app:layout_constraintEnd_toStartOf="@+id/RB_Girl"
-        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ETName" />
 
-    <Button
-        android:id="@+id/btn_Create"
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="97dp"
-        android:layout_marginBottom="128dp"
-        android:text="Create"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date" />
+        app:constraint_referenced_ids="tx_sleep,tx_milk,sb_diapers,tx_tammy,sb_milk,sb_tummy,sb_sleep,tx_diaper" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

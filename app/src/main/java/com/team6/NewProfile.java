@@ -11,6 +11,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,8 +42,22 @@ public class NewProfile extends AppCompatActivity implements  View.OnClickListen
     private static final int CAMERA_REQ = 1;
 
     private FirebaseDatabase database;
-
     private RadioButton rbBoy, rbGirl;
+    private static SeekBar mSB_milk, mSB_tummy, mSB_sleep, mSB_diapers;
+
+
+
+
+    private static TextView mTX_milk;
+
+
+    private static TextView mTX_sleep;
+
+    private static TextView mTX_tammy;
+
+
+    private static TextView mTX_diapear;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +81,75 @@ public class NewProfile extends AppCompatActivity implements  View.OnClickListen
          rbGirl = findViewById(R.id.RB_Girl);
          rbGirl.setOnClickListener(this);
 
-         // set on click for save button
+         // set on click listener for save button and take picture
         findViewById(R.id.btn_Create).setOnClickListener(this);
+        findViewById(R.id.btnTakePic).setOnClickListener(this);
+
+        // Seek Bar local variables
+        mSB_milk = findViewById(R.id.sb_milk);
+        mSB_diapers = findViewById(R.id.sb_diapers);
+        mSB_tummy = findViewById(R.id.sb_tummy);
+        mSB_sleep = findViewById(R.id.sb_sleep);
+        mTX_milk = findViewById(R.id.tx_milk);
+        mTX_sleep = findViewById(R.id.tx_sleep);
+        mTX_tammy = findViewById(R.id.tx_tammy);
+        mTX_diapear = findViewById(R.id.tx_diaper);
+
+        // change text on text box of each seekbar
+        seekBar(mSB_milk, findViewById(R.id.tx_milk));
+        seekBar(mSB_diapers, findViewById(R.id.tx_diaper));
+        seekBar(mSB_tummy, findViewById(R.id.tx_tammy));
+        seekBar(mSB_sleep, findViewById(R.id.tx_sleep));
 
 
     }
+
+    public void seekBar(SeekBar seekbar, TextView text_view) {
+        // set the inicial seekbar textbox text
+        if (text_view.equals(mTX_milk)) {
+            text_view.setText("Milk -"+ seekbar.getProgress() + " oz");
+        } else if (text_view.equals(mTX_sleep)) {
+            text_view.setText("Sleep -" + seekbar.getProgress() + " hours");
+        } else if (text_view.equals(mTX_tammy)) {
+            text_view.setText("Tummy-time -" + seekbar.getProgress() + " hours");
+        } else if (text_view.equals(mTX_diapear)) {
+            text_view.setText("Diapers -" + seekbar.getProgress() + " pcs");
+        }
+
+        seekbar.setOnSeekBarChangeListener(
+                new SeekBar.OnSeekBarChangeListener() {
+                    int progress_value;
+                    @Override
+                    // change text box according to seek bar changes
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        progress_value = progress;
+                        if (text_view.equals(mTX_milk)) {
+                            text_view.setText("Milk -"+(progress) + " oz");
+                        } else if (text_view.equals(mTX_sleep)) {
+                            text_view.setText(("Sleep -" +progress) + " hours");
+                        } else if (text_view.equals(mTX_tammy)) {
+                            text_view.setText(("Tummy-time -" +progress) + " hours");
+                        } else if (text_view.equals(mTX_diapear)) {
+                            text_view.setText(("Diapers -"+progress) + " pcs");
+                        }
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        // no used
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        // no used
+                    }
+
+
+                }
+        );
+
+    }
+
 
     //set the date to the box
     private void setDate() {
@@ -91,12 +171,6 @@ public class NewProfile extends AppCompatActivity implements  View.OnClickListen
             };
 
 
-// it takes a picture with the phone camera
-    public void takepic (View v){
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, CAMERA_REQ);
-
-    }
 
     // it upload a picture to firebase
     public void Upload (String key){
@@ -119,7 +193,7 @@ public class NewProfile extends AppCompatActivity implements  View.OnClickListen
                                 PicURL= task.getResult().toString();
                                 System.out.println("here   "+task.getResult().toString());
 
-                                BabyProfile babyProfile = new BabyProfile(key,((EditText)findViewById(R.id.ETName)).getText().toString(), new Date(mYearIni,mMonthIni + 1,mDayIni),gender,PicURL);
+                                BabyProfile babyProfile = new BabyProfile(key,((EditText)findViewById(R.id.ETName)).getText().toString(), new Date(mYearIni,mMonthIni + 1,mDayIni),gender,PicURL,mSB_milk.getProgress(),mSB_tummy.getProgress(),mSB_sleep.getProgress(),mSB_diapers.getProgress());
                                 database.getReference().child("BabyProfiles").child(babyProfile.getId()).setValue(babyProfile);
 
                             }
@@ -171,11 +245,21 @@ public class NewProfile extends AppCompatActivity implements  View.OnClickListen
                 break;
                 // will create a id key and send it to upload
             case R.id.btn_Create:
-                
-                String key = database.getReference().child("BabyProfiles").push().getKey();
-                Upload(key);
+
+                if (photo != null && gender != "" && ((EditText)findViewById(R.id.ETName)).getText().toString() != "Name") {
+                    String key = database.getReference().child("BabyProfiles").push().getKey();
+                    Upload(key);
+                    Toast.makeText(this,"New Profile Saved",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this,"Please complete the profile",Toast.LENGTH_SHORT).show();
+                }
                 break;
 
+            // it takes a picture with the phone camera
+            case R.id.btnTakePic:
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQ);
+                break;
         }
     }
     // show calendar and send local date variable
