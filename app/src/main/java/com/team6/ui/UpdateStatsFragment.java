@@ -54,10 +54,22 @@ public class UpdateStatsFragment extends Fragment {
     @SuppressLint("StaticFieldLeak")
     private static TextView text_view9;
     FirebaseDatabase database;
+    // global profile id
+    private GlobalVariable globalVariable;
+    private String mDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // get the profile id
+        globalVariable = (GlobalVariable) getContext().getApplicationContext();
+        // load stats with the actual date
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+       mDate= formatter.format(date);
+        // called to update stats with the actual date
+        updateProgressBars(mDate);
+
 
     }
 
@@ -87,15 +99,25 @@ public class UpdateStatsFragment extends Fragment {
 
         //select a date to retrieve Profile stats
         CalendarView calendar = fragment.findViewById(R.id.calendarView4);
+
+        // check selected date
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month,
                                             int dayOfMonth) {
-                String date = ""+(month +1)+"-"+dayOfMonth+"-" + year;
-                updateProgressBars(date);
+                // set a new format with the date format needed in firebase "MM-dd-yyyy"
+                Date date = new Date();
+                date.setYear(year - 1900);
+                date.setMonth(month);
+                date.setDate(dayOfMonth);
+                SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+                String strDate= formatter.format(date);
+                mDate = strDate;
+                // update the progress bar with the date selected
+                updateProgressBars(strDate);
 
-                Toast.makeText(getActivity().getBaseContext(), date, 0).show();// TODO Auto-generated method stub
+                Toast.makeText(getActivity().getBaseContext(), strDate, 0).show();// TODO Auto-generated method stub
 
             }
         });
@@ -103,8 +125,9 @@ public class UpdateStatsFragment extends Fragment {
         return fragment;
     }
 
+    // update the progress bar with the date selected receive a date
     public void updateProgressBars(String date) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("BabyProfiles").child("1").child("Stats").child("04-02-2021");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("BabyProfiles").child(globalVariable.getIdProfile()).child("Stats").child(date.trim());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -183,7 +206,7 @@ public class UpdateStatsFragment extends Fragment {
         );
 
     }
-
+    // updates stats on the database.
     public void saveData(View view) {
         Context context = getActivity().getBaseContext();
         String milk = (String) text_view5.getText();
@@ -192,57 +215,14 @@ public class UpdateStatsFragment extends Fragment {
         String diapers = (String) text_view9.getText();
         CalendarView calendar = getView().findViewById(R.id.calendarView4);
         database = FirebaseDatabase.getInstance();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-        String selectedDate = sdf.format(new Date(calendar.getDate()));
-        calendar.setOnDateChangeListener((CalendarView.OnDateChangeListener) (test1, year, month, dayOfMonth) -> {
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-            Date date = null;
-            String MMM = "";
-            if (month == 0) {
-                MMM = "January";
-            } else if (month == 1) {
-                MMM = "February";
-            } else if (month == 2) {
-                MMM = "March";
-            } else if (month == 3) {
-                MMM = "April";
-            } else if (month == 4) {
-                MMM = "May";
-            } else if (month == 5) {
-                MMM = "June";
-            } else if (month == 6) {
-                MMM = "July";
-            } else if (month == 7) {
-                MMM = "August";
-            } else if (month == 8) {
-                MMM = "September";
-            } else if (month == 9) {
-                MMM = "October";
-            } else if (month == 10) {
-                MMM = "November";
-            } else if (month == 11) {
-                MMM = "December";
-            }
 
-            String date1 = dayOfMonth + "-" + MMM + "-" + year;
-            try {
-                date = (Date) formatter.parse(date1);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            long mills = date.getTime();
-            test1.setDate(mills);
-        });
+        Toast.makeText(context, "Stats Saved \n" + mDate + " \nMilk: " + milk + " \nTummy-time: " + tummyTime + " \nSleep: " + sleep + " \nDiapers: " + diapers, Toast.LENGTH_LONG).show();
 
-        Toast.makeText(context, "Stats Saved \n" + selectedDate + " \nMilk: " + milk + " \nTummy-time: " + tummyTime + " \nSleep: " + sleep + " \nDiapers: " + diapers, Toast.LENGTH_LONG).show();
-        final GlobalVariable globalVariable = (GlobalVariable) getContext().getApplicationContext();
-
-        NumbersUpdate babyStats = new NumbersUpdate( globalVariable.getIdProfile(), milk, tummyTime, sleep, diapers);
-        //String key = database.getReference().child("BabyProfiles").child("1").push().getKey();
-
+        // create a new baby stat with data selected in the activity.
+        NumbersUpdate babyStats = new NumbersUpdate( globalVariable.getIdProfile(),String.valueOf( seek_bar_milk.getProgress()), String.valueOf(seek_bar_tummytime.getProgress()), String.valueOf(seek_bar_sleep.getProgress()),String.valueOf( seek_bar_diapers.getProgress()));
+        // save stats om tje datanase
         Map<String, Object> statUpdate = new HashMap<>();
-       // statUpdate.put("BabyStats" + new Date(), babyStats);
-        statUpdate.put(selectedDate, babyStats);
+        statUpdate.put(mDate, babyStats);
         database.getReference().child("BabyProfiles").child(globalVariable.getIdProfile()).child("Stats").updateChildren(statUpdate);
     }
 }
