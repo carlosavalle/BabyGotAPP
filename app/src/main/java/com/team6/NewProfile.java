@@ -245,12 +245,21 @@ public class NewProfile extends AppCompatActivity implements  View.OnClickListen
                 break;
                 // will create a id key and send it to upload
             case R.id.btn_Create:
-
-                if (photo != null && gender != "" && ((EditText)findViewById(R.id.ETName)).getText().toString() != "Name") {
+                String mName = ((EditText)findViewById(R.id.ETName)).getText().toString().trim();
+                String mDate = ((EditText)findViewById(R.id.date)).getText().toString().trim();
+                // check if the new profile is compleate
+                if ((photo != null) && (gender != "") && (!mName.equals("Name")) &&  (!mDate.equals("Birthday") )) {
+                    // generate a new key for the profile
                     String key = database.getReference().child("BabyProfiles").push().getKey();
+                    // create the profile and upload the picture.
                     Upload(key);
+                    // show message of status
                     Toast.makeText(this,"New Profile Saved",Toast.LENGTH_SHORT).show();
+                    // goes back to profile page
+                    this.onBackPressed();
+
                 }else{
+                    // show message of status
                     Toast.makeText(this,"Please complete the profile",Toast.LENGTH_SHORT).show();
                 }
                 break;
