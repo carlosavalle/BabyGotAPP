@@ -5,7 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +18,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.team6.GlobalVariable;
 import com.team6.NumbersUpdate;
 import com.team6.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +42,10 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
+    //Global Selector
+    private GlobalVariable globalVariable;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -60,43 +72,90 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        updateProgressBars();
+
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View fragment = inflater.inflate(R.layout.fragment_home, container, false);
+        updateProgressBars(fragment);
+
+        return fragment;
     }
 
 
 
-    public void updateProgressBars() {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("BabyProfiles").child("1").child("Stats").child("03-31-2021");
+    public void updateProgressBars(View fragment) {
+
+        Date date = new Date();
+        SimpleDateFormat monthDayYear = new SimpleDateFormat("MM-dd-yyyy");
+        String currentDate = monthDayYear.format(date);
+
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("BabyProfiles").child("1").child("Stats").child(currentDate); //Global Needed Here
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                NumbersUpdate numbersUpdate = snapshot.getValue(NumbersUpdate.class);
 
-                ProgressBar MilkProgressBar = (ProgressBar) getView().findViewById(R.id.progressBar5);
-                ProgressBar SleepProgressBar = (ProgressBar) getView().findViewById(R.id.progressBar2);
-                ProgressBar TummyTimeProgressBar = (ProgressBar) getView().findViewById(R.id.progressBar3);
-                ProgressBar DiaperProgressBar = (ProgressBar) getView().findViewById(R.id.progressBar4);
+                ProgressBar milkProgressBar = (ProgressBar) fragment.findViewById(R.id.progressBar2);
+                ProgressBar sleepProgressBar = (ProgressBar) fragment.findViewById(R.id.progressBar4);
+                ProgressBar tummyTimeProgressBar = (ProgressBar) fragment.findViewById(R.id.progressBar5);
+                ProgressBar diaperProgressBar = (ProgressBar) fragment.findViewById(R.id.progressBar3);
+
+                TextView textViewMilk = fragment.findViewById(R.id.textView);
+                TextView textViewDiapers = fragment.findViewById(R.id.textView3);
+                TextView textViewTummyTime = fragment.findViewById(R.id.textView6);
+                TextView textViewSleep = fragment.findViewById(R.id.textView4);
+
+                if (snapshot.getKey().equals(currentDate)) {
+
+                    Log.w("KEY", snapshot.getKey());
+                    NumbersUpdate numbersUpdate = snapshot.getValue(NumbersUpdate.class);
+
+                    int sleepValue = Integer.parseInt(numbersUpdate.getSleep().split(" ")[0]);
+                    int tummyTimeValue = Integer.parseInt(numbersUpdate.getTummyTime().split(" ")[0]);
+                    int diaperValue = Integer.parseInt(numbersUpdate.getDiapers().split(" ")[0]);
+                    int milkValue = Integer.parseInt(numbersUpdate.getMilk().split(" ")[0]);
+
+                    sleepProgressBar.setProgress(sleepValue);
+                    tummyTimeProgressBar.setProgress(tummyTimeValue);
+                    milkProgressBar.setProgress(milkValue);
+                    diaperProgressBar.setProgress(diaperValue);
+
+                }
+                else {
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    Log.w("Database Reference", "does not exists");
+
+                    sleepProgressBar.setProgress(0);
+                    tummyTimeProgressBar.setProgress(0);
+                    milkProgressBar.setProgress(0);
+                    diaperProgressBar.setProgress(0);
 
 
-        //       int sleepValue = Integer.parseInt( numbersUpdate.getSleep());
+                    NumbersUpdate babyStats = new NumbersUpdate("1", "0", "0", "0", "0"); //Global Needed Here
+                    Map<String, Object> statUpdate = new HashMap<>();
+                    statUpdate.put(currentDate, babyStats);
+                    database.getReference().child("BabyProfiles").child("1").child("Stats").updateChildren(statUpdate); //Global needed Here
 
-                MilkProgressBar.setProgress( 50);
-                SleepProgressBar.setProgress( 30);
-                TummyTimeProgressBar.setProgress( 70);
-                DiaperProgressBar.setProgress( 80);
+                }
 
+                sleepProgressBar.setMax(12);
+                tummyTimeProgressBar.setMax(15);
+                milkProgressBar.setMax(20);
+                diaperProgressBar.setMax(6);
 
+                textViewMilk.setText(sleepProgressBar.getProgress() + "/20");
+                textViewDiapers.setText(diaperProgressBar.getProgress() + "/6");
+                textViewSleep.setText(sleepProgressBar.getProgress() + "/12");
+                textViewTummyTime.setText(tummyTimeProgressBar.getProgress() + "/15");
 
             }
 

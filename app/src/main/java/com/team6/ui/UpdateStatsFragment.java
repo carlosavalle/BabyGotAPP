@@ -167,7 +167,7 @@ public class UpdateStatsFragment extends Fragment {
         if (text_view.equals(text_view5)) {
             text_view.setText(seekbar.getProgress() + " oz");
         } else if (text_view.equals(text_view7)) {
-            text_view.setText(seekbar.getProgress() + " hours");
+            text_view.setText(seekbar.getProgress() + " minutes");
         } else if (text_view.equals(text_view8)) {
             text_view.setText(seekbar.getProgress() + " hours");
         } else if (text_view.equals(text_view9)) {
@@ -184,7 +184,7 @@ public class UpdateStatsFragment extends Fragment {
                         if (text_view.equals(text_view5)) {
                             text_view.setText((progress) + " oz");
                         } else if (text_view.equals(text_view7)) {
-                            text_view.setText((progress) + " hours");
+                            text_view.setText((progress) + " minutes");
                         } else if (text_view.equals(text_view8)) {
                             text_view.setText((progress) + " hours");
                         } else if (text_view.equals(text_view9)) {
@@ -202,7 +202,7 @@ public class UpdateStatsFragment extends Fragment {
                         if (text_view.equals(text_view5)) {
                             text_view.setText((progress_value) + " oz");
                         } else if (text_view.equals(text_view7)) {
-                            text_view.setText((progress_value) + " hours");
+                            text_view.setText((progress_value) + " minutes");
                         } else if (text_view.equals(text_view8)) {
                             text_view.setText((progress_value) + " hours");
                         } else if (text_view.equals(text_view9)) {
