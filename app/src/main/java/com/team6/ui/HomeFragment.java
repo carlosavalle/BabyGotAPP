@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment {
 
     //Global Selector
     private GlobalVariable globalVariable;
+    boolean profileSelected = false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -70,22 +72,27 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
+    public View onCreateView( LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View fragment = inflater.inflate(R.layout.fragment_home, container, false);
-        updateProgressBars(fragment);
+        globalVariable = (GlobalVariable) getContext().getApplicationContext();
+
+        if (globalVariable.getIdProfile() != null) {
+            updateProgressBars(fragment);
+        }
+        else {
+            Toast.makeText(getActivity().getBaseContext(), "Select a profile", Toast.LENGTH_LONG).show();
+        }
 
         return fragment;
     }
@@ -99,7 +106,7 @@ public class HomeFragment extends Fragment {
         String currentDate = monthDayYear.format(date);
 
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("BabyProfiles").child("1").child("Stats").child(currentDate); //Global Needed Here
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("BabyProfiles").child(globalVariable.getIdProfile()).child("Stats"); //Global Needed Here
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -114,15 +121,21 @@ public class HomeFragment extends Fragment {
                 TextView textViewTummyTime = fragment.findViewById(R.id.textView6);
                 TextView textViewSleep = fragment.findViewById(R.id.textView4);
 
-                if (snapshot.getKey().equals(currentDate)) {
+                if (snapshot.child(currentDate).exists()) {
 
-                    Log.w("KEY", snapshot.getKey());
-                    NumbersUpdate numbersUpdate = snapshot.getValue(NumbersUpdate.class);
+                    Log.w("KEY", globalVariable.getIdProfile());
+                    Log.w("CurrentDate", currentDate);
+                    NumbersUpdate numbersUpdate = snapshot.child(currentDate).getValue(NumbersUpdate.class);
 
                     int sleepValue = Integer.parseInt(numbersUpdate.getSleep().split(" ")[0]);
                     int tummyTimeValue = Integer.parseInt(numbersUpdate.getTummyTime().split(" ")[0]);
                     int diaperValue = Integer.parseInt(numbersUpdate.getDiapers().split(" ")[0]);
                     int milkValue = Integer.parseInt(numbersUpdate.getMilk().split(" ")[0]);
+
+                    sleepProgressBar.setProgress(0);
+                    tummyTimeProgressBar.setProgress(0);
+                    milkProgressBar.setProgress(0);
+                    diaperProgressBar.setProgress(0);
 
                     sleepProgressBar.setProgress(sleepValue);
                     tummyTimeProgressBar.setProgress(tummyTimeValue);
@@ -140,10 +153,10 @@ public class HomeFragment extends Fragment {
                     diaperProgressBar.setProgress(0);
 
 
-                    NumbersUpdate babyStats = new NumbersUpdate("1", "0", "0", "0", "0"); //Global Needed Here
+                    NumbersUpdate babyStats = new NumbersUpdate(globalVariable.getIdProfile(), "0", "0", "0", "0"); //Global Needed Here
                     Map<String, Object> statUpdate = new HashMap<>();
                     statUpdate.put(currentDate, babyStats);
-                    database.getReference().child("BabyProfiles").child("1").child("Stats").updateChildren(statUpdate); //Global needed Here
+                    database.getReference().child("BabyProfiles").child(globalVariable.getIdProfile()).child("Stats").updateChildren(statUpdate); //Global needed Here
 
                 }
 
