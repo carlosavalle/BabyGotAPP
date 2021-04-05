@@ -14,12 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BabyGotAPP">
         <activity android:name=".NewProfile" />
-        <activity
-            android:name=".UpdateStatsActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".CalendarPresenterActivity" />
-        <activity android:name=".WhiteNoisePresenterActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
