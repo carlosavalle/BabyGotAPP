@@ -35,21 +35,7 @@ public class NewProfile extends AppCompatActivity implements  View.OnClickListen
     private String PicURL = "";
     private int mYearIni, mMonthIni, mDayIni, sYearIni, sMonthIni, sDayIni;
     private EditText pickDate;
-    private String gender = "";
-    static final int DATE_ID = 0;
-    private Calendar C = Calendar.getInstance();
-    private Bitmap photo;
-    private static final int CAMERA_REQ = 1;
 
-    private FirebaseDatabase database;
-    private RadioButton rbBoy, rbGirl;
-    private static SeekBar mSB_milk, mSB_tummy, mSB_sleep, mSB_diapers;
-
-    //seek bar
-    private static TextView mTX_milk;
-    private static TextView mTX_sleep;
-    private static TextView mTX_tammy;
-    private static TextView mTX_diapear;
 
 
     @Override
@@ -62,37 +48,10 @@ public class NewProfile extends AppCompatActivity implements  View.OnClickListen
         sMonthIni = C.get(Calendar.MONTH);
         sDayIni = C.get(Calendar.DAY_OF_MONTH);
         sYearIni = C.get(Calendar.YEAR);
-        pickDate = (EditText) findViewById(R.id.date);
-        //hide keyboard
-        pickDate.requestFocus();
-        pickDate.setShowSoftInputOnFocus(false);
-        pickDate.setOnClickListener(this);
-
-        // to check radio boxes gender
-         rbBoy = findViewById(R.id.RB_boy);
-         rbBoy.setOnClickListener(this);
-         rbGirl = findViewById(R.id.RB_Girl);
-         rbGirl.setOnClickListener(this);
-
-         // set on click listener for save button and take picture
-        findViewById(R.id.btn_Create).setOnClickListener(this);
-        findViewById(R.id.btnTakePic).setOnClickListener(this);
 
         // Seek Bar local variables
         mSB_milk = findViewById(R.id.sb_milk);
         mSB_diapers = findViewById(R.id.sb_diapers);
-        mSB_tummy = findViewById(R.id.sb_tummy);
-        mSB_sleep = findViewById(R.id.sb_sleep);
-        mTX_milk = findViewById(R.id.tx_milk);
-        mTX_sleep = findViewById(R.id.tx_sleep);
-        mTX_tammy = findViewById(R.id.tx_tammy);
-        mTX_diapear = findViewById(R.id.tx_diaper);
-
-        // change text on text box of each seekbar
-        seekBar(mSB_milk, findViewById(R.id.tx_milk));
-        seekBar(mSB_diapers, findViewById(R.id.tx_diaper));
-        seekBar(mSB_tummy, findViewById(R.id.tx_tammy));
-        seekBar(mSB_sleep, findViewById(R.id.tx_sleep));
 
 
     }
@@ -101,13 +60,6 @@ public class NewProfile extends AppCompatActivity implements  View.OnClickListen
         // set the inicial seekbar textbox text
         if (text_view.equals(mTX_milk)) {
             text_view.setText("Milk -"+ seekbar.getProgress() + " oz");
-        } else if (text_view.equals(mTX_sleep)) {
-            text_view.setText("Sleep -" + seekbar.getProgress() + " hours");
-        } else if (text_view.equals(mTX_tammy)) {
-            text_view.setText("Tummy-time -" + seekbar.getProgress() + " hours");
-        } else if (text_view.equals(mTX_diapear)) {
-            text_view.setText("Diapers -" + seekbar.getProgress() + " pcs");
-        }
 
         seekbar.setOnSeekBarChangeListener(
                 new SeekBar.OnSeekBarChangeListener() {
@@ -117,14 +69,6 @@ public class NewProfile extends AppCompatActivity implements  View.OnClickListen
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         progress_value = progress;
                         if (text_view.equals(mTX_milk)) {
-                            text_view.setText("Milk -"+(progress) + " oz");
-                        } else if (text_view.equals(mTX_sleep)) {
-                            text_view.setText(("Sleep -" +progress) + " hours");
-                        } else if (text_view.equals(mTX_tammy)) {
-                            text_view.setText(("Tummy-time -" +progress) + " hours");
-                        } else if (text_view.equals(mTX_diapear)) {
-                            text_view.setText(("Diapers -"+progress) + " pcs");
-                        }
                     }
 
                     @Override
@@ -143,6 +87,90 @@ public class NewProfile extends AppCompatActivity implements  View.OnClickListen
 
     }
 
+            public void seekBar(SeekBar seekbar, TextView text_view) {
+                // set the inicial seekbar textbox text
+                if (text_view.equals(mTX_milk)) {
+                    text_view.setText("Milk -"+ seekbar.getProgress() + " oz");
+
+                    seekbar.setOnSeekBarChangeListener(
+                            new SeekBar.OnSeekBarChangeListener() {
+                                int progress_value;
+                                @Override
+                                // change text box according to seek bar changes
+                                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                                    progress_value = progress;
+                                    if (text_view.equals(mTX_milk)) {
+                                    }
+
+                                    @Override
+                                    public void onStartTrackingTouch(SeekBar seekBar) {
+                                        // no used
+                                    }
+
+                                    @Override
+                                    public void onStopTrackingTouch(SeekBar seekBar) {
+                                        // no used
+                                    }
+
+
+                                }
+        );
+                                public void seekBar(SeekBar seekbar, TextView text_view) {
+                                    // set the inicial seekbar textbox text
+                                    if (text_view.equals(mTX_milk)) {
+                                        text_view.setText("Milk -"+ seekbar.getProgress() + " oz");
+
+                                        seekbar.setOnSeekBarChangeListener(
+                                                new SeekBar.OnSeekBarChangeListener() {
+                                                    int progress_value;
+                                                    @Override
+                                                    // change text box according to seek bar changes
+                                                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                                                        progress_value = progress;
+                                                        if (text_view.equals(mTX_milk)) {
+                                                        }
+
+                                                        @Override
+                                                        public void onStartTrackingTouch(SeekBar seekBar) {
+                                                            // no used
+                                                        }
+
+                                                        @Override
+                                                        public void onStopTrackingTouch(SeekBar seekBar) {
+                                                            // no used
+                                                        }
+
+
+                                                    }
+        );
+                                                    public void seekBar(SeekBar seekbar, TextView text_view) {
+                                                        // set the inicial seekbar textbox text
+                                                        if (text_view.equals(mTX_milk)) {
+                                                            text_view.setText("Milk -"+ seekbar.getProgress() + " oz");
+
+                                                            seekbar.setOnSeekBarChangeListener(
+                                                                    new SeekBar.OnSeekBarChangeListener() {
+                                                                        int progress_value;
+                                                                        @Override
+                                                                        // change text box according to seek bar changes
+                                                                        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                                                                            progress_value = progress;
+                                                                            if (text_view.equals(mTX_milk)) {
+                                                                            }
+
+                                                                            @Override
+                                                                            public void onStartTrackingTouch(SeekBar seekBar) {
+                                                                                // no used
+                                                                            }
+
+                                                                            @Override
+                                                                            public void onStopTrackingTouch(SeekBar seekBar) {
+                                                                                // no used
+                                                                            }
+
+
+                                                                        }
+        );
 
     //set the date to the box
     private void setDate() {
